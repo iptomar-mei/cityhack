@@ -1,22 +1,81 @@
-var coap = require('coap')
-  , server = coap.createServer({ type: 'udp6' })
+var coap = require('coap');
 
-server.on('request', function(req, res) {
-  res.end('Hello ' + req.url.split('/')[1] + '\n')
+coap.registerFormat('application/json', 50);
+
+var express = require('express');
+var app = express();
+
+app.get('/dht22', function (req, res) {
+  var coap_req = coap.request({
+    hostname: 'fd00::212:4b00:14d5:2bf9',
+    port: 5683,
+    method: "GET",
+    pathname: "/sensors/dht22",
+    /* options: {
+  	psk:           new Buffer('OurSecret'),
+  	PSKIdent:      new Buffer("OurIdentity")
+    }*/
+  });
+
+  coap_req.on('response', (coap_res) => {
+    console.log(coap_res._packet.payload.toString('utf8'));
+    res.send(coap_res._packet.payload.toString('utf8'));
+  });
+
+  coap_req.on('error', (coap_res) => {
+    console.log(coap_res);
+    res.send("error");
+  });
+
+  coap_req.end()
 })
 
-// the default CoAP port is 5683
-server.listen(5683, 'coap://[aaaa::1]', function() {
-    req = coap.request('coap://[aaaa::1:]') //faz um pedido
+app.get('/loudness', function (req, res) {
+  var coap_req = coap.request({
+    hostname: 'fd00::212:4b00:14d5:2bf9',
+    port: 5683,
+    method: "GET",
+    pathname: "/sensors/loudness",
+    /* options: {
+  	psk:           new Buffer('OurSecret'),
+  	PSKIdent:      new Buffer("OurIdentity")
+    }*/
+  });
 
-  req.on('response', function(res) { 
-    console.log(res)
+  coap_req.on('response', (coap_res) => {
+    console.log(coap_res._packet.payload.toString('utf8'));
+    res.send(coap_res._packet.payload.toString('utf8'));
+  });
 
-    res.pipe(process.stdout)
-    res.on('end', function() {
-      process.exit(0)
-    })
-  })
+  coap_req.on('error', (coap_res) => {
+    console.log(coap_res);
+    res.send("error");
+  });
 
-  req.end()
+  coap_req.end()
+})
+
+app.get('/light', function (req, res) {
+  var coap_req = coap.request({
+    hostname: 'fd00::212:4b00:14d5:2bf9',
+    port: 5683,
+    method: "GET",
+    pathname: "/sensors/light-sensor",
+    /* options: {
+  	psk:           new Buffer('OurSecret'),
+  	PSKIdent:      new Buffer("OurIdentity")
+    }*/
+  });
+
+  coap_req.on('response', (coap_res) => {
+    console.log(coap_res._packet.payload.toString('utf8'));
+    res.send(coap_res._packet.payload.toString('utf8'));
+  });
+
+  coap_req.on('error', (coap_res) => {
+    console.log(coap_res);
+    res.send("error");
+  });
+
+  coap_req.end()
 })
