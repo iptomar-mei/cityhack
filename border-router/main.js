@@ -1,6 +1,6 @@
 var cluster = require("cluster");
 if (cluster.isMaster) {
-  console.log("Cluster initiate")
+  console.log("Cluster initiate");
   cluster.fork();
   cluster.on("exit", () => cluster.fork());
 } else {
@@ -96,7 +96,18 @@ if (cluster.isMaster) {
     );
 
   });
+  
+  var https = require("https"), fs = require("fs");
+  const options = {
+    key: fs.readFileSync(__dirname + "/keys/server_key.pem"),
+    cert: fs.readFileSync(__dirname + "/keys/server_cert.pem"),
+    ca: fs.readFileSync(__dirname + "/keys/ca_cert.pem")
+  };
 
-  app.listen(3000, () => { console.log("server running"); });
+  https.createServer(options, app).listen(3000, () => {
+    console.log("server running on port 3000 over HTTPS");
+  });
+
+  //app.listen(3000, () => { console.log("server running"); });
 
 }
