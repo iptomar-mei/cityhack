@@ -2,3 +2,6 @@
 
 <!-- correr este comando RaspPI -->
 tunslip6 -s /dev/ttyUSB0 -t tun0 aaaa::1/64
+
+cd Desktop/cityhack
+java -jar ./leshan-server-demo.jar
