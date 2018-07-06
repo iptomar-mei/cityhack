@@ -1,0 +1,1 @@
+façam git clone do contiki-ng e troquem a pasta example
