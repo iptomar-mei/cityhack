@@ -10,11 +10,14 @@ if (cluster.isMaster) {
   var coap = require('coap');
   coap.registerFormat('application/json', 50);
 
+// Contiki-NG-Zolertia4B0014D52F32
+// 4f7572536563726574
+
   var zolertias = [
     { id: 1, ip: "fd00::212:4b00:14d5:2bf9", location: "salao_dhl" },   // dht22 / lum
     { id: 2, ip: "fd00::212:4b00:60d:610d", location: "rua_dhl" },    // dht22 / lum
     { id: 3, ip: "fd00::212:4b00:14d5:2f32", location: "lazer_dhl" },   // dht22 / lum
-    { id: 4, ip: "fd00::212:4b00:60d:6077", location: "salao_s" },    // loudness
+    { id: 4, ip: "fd00::212:4b00:14b5:da44", location: "salao_s" },    // loudness
     { id: 5, ip: "fd00::212:4b00:14d5:2dc6", location: "lazer_s" }    // loudness
   ]
 
@@ -28,10 +31,10 @@ if (cluster.isMaster) {
         port: 5683,
         method: "GET",
         pathname: "/sensors/dht22",
-        /*options: {
-          psk:           new Buffer('4f7572536563726574'),
-          PSKIdent:      new Buffer("OurIdentity")
-        }*/
+        // options: {
+        //   psk:           new Buffer('OurSecret'),
+        //   PSKIdent:      new Buffer("OurIdentity")
+        // }
       })
         .on('response', (coap_res) => {
           let response = coap_res._packet.payload.toString('utf8');
@@ -53,10 +56,10 @@ if (cluster.isMaster) {
         port: 5683,
         method: "GET",
         pathname: "/sensors/loudness",
-        /* options: {
-           psk:           new Buffer('OurSecret'),
-           PSKIdent:      new Buffer("OurIdentity")
-         }*/
+        // options: {
+        //    psk:           new Buffer('OurSecret'),
+        //    PSKIdent:      new Buffer("OurIdentity")
+        //  }
       })
         .on('response', (coap_res) => {
           let response = coap_res._packet.payload.toString('utf8');
@@ -72,10 +75,10 @@ if (cluster.isMaster) {
         port: 5683,
         method: "GET",
         pathname: "/sensors/light-sensor",
-        /*options: {
-          psk:           new Buffer('OurSecret'),
-          PSKIdent:      new Buffer("OurIdentity")
-        }*/
+        // options: {
+        //   psk:           new Buffer('OurSecret'),
+        //   PSKIdent:      new Buffer("OurIdentity")
+        // }
       })
         .on('response', (coap_res) => {
           let response = coap_res._packet.payload.toString('utf8');
